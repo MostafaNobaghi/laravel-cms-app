@@ -1,7 +1,4 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Game
- * Date: 9/29/2017
- * Time: 11:27 AM
- */
+@extends('../../layouts/admin')
+@section('content')
+    <h1>Admin</h1>
+    @endsection
