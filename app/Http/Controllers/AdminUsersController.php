@@ -2,9 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UsersSaveRequest;
+use App\Photo;
+use App\Role;
+use App\User;
+use Faker\Provider\File;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Storage;
 
 class AdminUsersController extends Controller
 {
@@ -15,7 +21,8 @@ class AdminUsersController extends Controller
      */
     public function index()
     {
-        return view('admin.users.index');
+        $users = User::all();
+        return view('admin.users.index', compact('users'));
     }
 
     /**
@@ -25,7 +32,8 @@ class AdminUsersController extends Controller
      */
     public function create()
     {
-        return view('admin.users.create');
+        $roles = Role::lists('name','id');
+        return view('admin.users.create', compact('roles'));
     }
 
     /**
@@ -34,9 +42,21 @@ class AdminUsersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UsersSaveRequest $request)
     {
-        //
+//        dd($request);
+//        dd($request->file('file'));
+//        return $request->all();
+//        $path = $request->file('file')->store('file');
+        $file = $request->file('file');
+        $name = $file->getClientOriginalName();
+//        $file->move('images', $name);
+//        return $photo = Photo::create(['name'=>$name]);
+
+        $data = $request->all();
+        $user = User::create($data);
+
+        return redirect('/users');
     }
 
     /**
