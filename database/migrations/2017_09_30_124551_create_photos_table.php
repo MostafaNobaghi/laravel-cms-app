@@ -14,7 +14,7 @@ class CreatePhotosTable extends Migration
     {
         Schema::create('photos', function (Blueprint $table) {
             $table->increments('id');
-//            $table->string('name')->nullable();
+            $table->string('file')->nullable();
 //            $table->integer('imageable_id')->unsigned();
 //            $table->string('imageable_type')->nullable();
             $table->timestamps();

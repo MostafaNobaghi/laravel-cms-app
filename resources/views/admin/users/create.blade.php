@@ -35,8 +35,8 @@
         {!! Form::select('is_active', [0=>'Not active', 1=>'Active'],0, ['class'=>'form-control']) !!}
     </div>
     <div class="form-group">
-        {!! Form::label('file', 'Image:', ['class'=>'']) !!}
-        {!! Form::file('file', ['class'=>'']) !!}
+        {!! Form::label('photo_id', 'Image:', ['class'=>'']) !!}
+        {!! Form::file('photo_id', ['class'=>'']) !!}
     </div>
     <div class="form-group">
     {!! Form::submit('create',['class'=>'btn btn-success']) !!}

@@ -44,19 +44,21 @@ class AdminUsersController extends Controller
      */
     public function store(UsersSaveRequest $request)
     {
-//        dd($request);
-//        dd($request->file('file'));
-//        return $request->all();
-//        $path = $request->file('file')->store('file');
-        $file = $request->file('file');
-        $name = $file->getClientOriginalName();
-//        $file->move('images', $name);
-//        return $photo = Photo::create(['name'=>$name]);
+        $input = $request->all();
+        $input['password'] = bcrypt($request->password);
 
-        $data = $request->all();
-        $user = User::create($data);
+        if($request->file('photo_id')){
+            $file = $request->file('photo_id');
+            $name = time().$file->getClientOriginalName();
+            $file->move('images',$name);
+            $photo = Photo::Create(['file'=>$name]);
 
-        return redirect('/users');
+            $input['photo_id'] = $photo->id;
+        }
+
+
+         User::create($input);
+         return redirect(route('admin.users.index'));
     }
 
     /**
@@ -78,7 +80,9 @@ class AdminUsersController extends Controller
      */
     public function edit($id)
     {
-        return view('admin.users.index');
+        $user = User::find($id);
+        $roles = Role::lists('name','id');
+        return view('admin.users.edit', compact('user','roles'));
     }
 
     /**
@@ -88,9 +92,18 @@ class AdminUsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UsersSaveRequest $request, $id)
     {
-        //
+//        dd($request->all());
+
+        $input = $request->all();
+        if($input['password']=='') {
+            unset($input['password']);
+        }
+        $input['password'] = bcrypt($request->password);
+
+        User::findOrFail($id)->update($input);
+        return redirect(route('admin.users.index'));
     }
 
     /**
@@ -101,6 +114,17 @@ class AdminUsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        // Delete user photo
+        if($user->photo){
+            $photo = $user->photo;
+            if(Storage::delete($file)){
+                $photo->delete();
+            }
+        }
+
+        $user->delete();
+        return redirect(route('admin.users.index'));
     }
 }

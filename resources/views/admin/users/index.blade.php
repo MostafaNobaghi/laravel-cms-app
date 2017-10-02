@@ -6,6 +6,7 @@
     <thead>
         <tr>
             <th>ID</th>
+            <th>Photo</th>
             <th>Name</th>
             <th>Email</th>
             <th>Role</th>
@@ -18,7 +19,18 @@
             @foreach($users as $user)
                 <tr>
                     <td>{{$user->id}}</td>
-                    <td>{{$user->name}}</td>
+                    <td><img style="height: 50px" src="{{$user->photo_id>0 ? $user->photo['file'] :'no image'}}" alt="no image"></td>
+                    <td>
+                        {{$user->name}}
+                        <div class="">
+
+
+                            {!! Form::open(['method'=>'DELETE','url' => "admin/users/$user->id" , 'class'=>'', 'id'=>"delete-$user->id" ]) !!}
+                            <a href="{{route('admin.users.edit',$user->id)}}" class="">edit</a>
+                            {!! Form::submit('delete',['class'=>'btn text-danger']) !!}
+                            {!! Form::close() !!}
+                        </div>
+                    </td>
                     <td>{{$user->email}}</td>
                     <td>{{$user->role['name']}}</td>
                     <td>{{$user->is_active? 'Active': 'disable'}}</td>
@@ -30,4 +42,10 @@
         </tbody>
     </thead>
 </table>
+    @endsection
+
+@section('footer')
+    <script>
+        $()
+    </script>
     @endsection
