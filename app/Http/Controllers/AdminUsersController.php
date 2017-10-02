@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UsersEditRequest;
 use App\Http\Requests\UsersSaveRequest;
 use App\Photo;
 use App\Role;
@@ -92,12 +93,22 @@ class AdminUsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UsersSaveRequest $request, $id)
+    public function update(UsersEditRequest $request, $id)
     {
 //        dd($request->all());
 
         $input = $request->all();
-        if($input['password']=='') {
+        // if contains file
+        if($request->file('photo_id')){
+            $file = $request->file('photo_id');
+            $name = time().$file->getClientOriginalName();
+            $file->move('images', $name);
+            $photo = Photo::create(['file'=>$name]);
+            $input['photo_id'] = $photo->id;
+        }
+
+        // if password changed
+        if(trim($input['password'])=='') {
             unset($input['password']);
         }
         $input['password'] = bcrypt($request->password);
@@ -119,7 +130,7 @@ class AdminUsersController extends Controller
         // Delete user photo
         if($user->photo){
             $photo = $user->photo;
-            if(Storage::delete($file)){
+            if(Storage::delete($photo)){
                 $photo->delete();
             }
         }

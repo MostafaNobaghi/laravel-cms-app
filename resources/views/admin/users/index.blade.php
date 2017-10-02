@@ -19,15 +19,17 @@
             @foreach($users as $user)
                 <tr>
                     <td>{{$user->id}}</td>
-                    <td><img style="height: 50px" src="{{$user->photo_id>0 ? $user->photo['file'] :'no image'}}" alt="no image"></td>
+                    <td><img style="height: 50px" src="{{$user->photo_id>0 ? $user->photo['file'] :'/images/placeholder.svg'}}" alt="no image"></td>
                     <td>
                         {{$user->name}}
-                        <div class="">
+                        <div class="btn-default">
 
 
                             {!! Form::open(['method'=>'DELETE','url' => "admin/users/$user->id" , 'class'=>'', 'id'=>"delete-$user->id" ]) !!}
                             <a href="{{route('admin.users.edit',$user->id)}}" class="">edit</a>
-                            {!! Form::submit('delete',['class'=>'btn text-danger']) !!}
+                            {{--{!! Form::submit('delete',['class'=>'btn btn-default text-danger']) !!}--}}
+                            {!! Form::label('delete','Delete', ['class'=>'delete-links text-danger']) !!}
+                            {!! Form::input('submit','delete','Delete',['class'=>'hidden']) !!}
                             {!! Form::close() !!}
                         </div>
                     </td>

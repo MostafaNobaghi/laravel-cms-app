@@ -4,15 +4,9 @@
     <h2>Users</h2>
 
 {{--{{dd($rolesArray)}}--}}
-    @if(count($errors)>0)
-        <div class="alert alert-danger col-md-3 col-md-offset-4">
-            <ul>
-                @foreach($errors->all() as $error)
-                <li>{{$error}}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
+
+    @include('includes.errors')
+
     {!! Form::open(['action' => 'AdminUsersController@store','files'=>true, 'class'=>'col-md-3 col-md-offset-4']) !!}
     <div class="form-group">
         {!! Form::label('name', 'Name:') !!}

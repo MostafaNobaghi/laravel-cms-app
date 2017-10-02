@@ -35,3 +35,7 @@
 .toppad
 {margin-top:20px;
 }
+
+label.delete-links.text-danger:hover {
+    text-decoration: underline;
+}
