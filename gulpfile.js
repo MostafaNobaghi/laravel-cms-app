@@ -15,6 +15,7 @@ elixir(function(mix) {
     mix.sass('app.scss').
 
     styles([
+        'libs/bootstrap.css',
         'libs/blog-post.css',
         'libs/font-awesome.css',
         'libs/metisMenu.css',

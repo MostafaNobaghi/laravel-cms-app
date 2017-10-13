@@ -11,6 +11,7 @@ use Faker\Provider\File;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 
 class AdminUsersController extends Controller
@@ -46,7 +47,7 @@ class AdminUsersController extends Controller
     public function store(UsersSaveRequest $request)
     {
         $input = $request->all();
-        $input['password'] = bcrypt($request->password);
+        $input['password'] = bcrypt(trim($request->password));
 
         if($request->file('photo_id')){
             $file = $request->file('photo_id');
@@ -59,6 +60,7 @@ class AdminUsersController extends Controller
 
 
          User::create($input);
+        Session::flash('user_created', "The user '$request->name' created successfully");
          return redirect(route('admin.users.index'));
     }
 
@@ -108,12 +110,15 @@ class AdminUsersController extends Controller
         }
 
         // if password changed
-        if(trim($input['password'])=='') {
+        if(trim($input['password'])!='') {
+            $input['password'] = bcrypt($request->password);
+        } else{
             unset($input['password']);
         }
-        $input['password'] = bcrypt($request->password);
 
         User::findOrFail($id)->update($input);
+
+        Session::flash('user_updated', "The user '$request->name' updated successfully");
         return redirect(route('admin.users.index'));
     }
 
@@ -128,14 +133,21 @@ class AdminUsersController extends Controller
         $user = User::findOrFail($id);
 
         // Delete user photo
-        if($user->photo){
-            $photo = $user->photo;
-            if(Storage::delete($photo)){
-                $photo->delete();
+        if($user->name != 'mostafa nobaghi'){
+            if($user->photo){
+                $photo = $user->photo;
+                if(unlink(public_path().$photo->file)){
+                    $photo->delete();
+                }
             }
+
+            $user->delete();
+            Session::flash('user_deleted',"The user '$user->name' removed");
+        }else {
+            Session::flash('user_deleted',"You cant delete user '$user->name'");
         }
 
-        $user->delete();
+
         return redirect(route('admin.users.index'));
     }
 }

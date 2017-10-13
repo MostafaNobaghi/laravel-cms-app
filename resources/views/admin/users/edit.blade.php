@@ -39,11 +39,20 @@
                 {!! Form::label('photo_id', 'Image:', ['class'=>'']) !!}
                 {!! Form::file('photo_id', ['class'=>'']) !!}
             </div>
-            <div class="form-group">
-                {!! Form::submit('Edit',['class'=>'btn btn-success']) !!}
-            </div>
+                {!! Form::submit('Edit',['class'=>'btn btn-success col-sm-6']) !!}
+            {!! Form::close() !!}
+
+
+
+            {!! Form::open(['method'=>'DELETE', 'action' => ["AdminUsersController@destroy", $user->id], 'class'=>'']) !!}
+                {!! Form::submit('Delete',['class'=>'btn btn-danger col-sm-6']) !!}
             {!! Form::close() !!}
         </div>
+        <div class="clearfix"></div>
+
+        <div>
+        </div>
+
     </div>
 
 
