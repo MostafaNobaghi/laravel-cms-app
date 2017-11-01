@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Http\Requests\PostsCreateRequest;
 use App\Photo;
 use App\Post;
 use Illuminate\Http\Request;
@@ -30,7 +31,7 @@ class AdminPostsController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
+        $categories = Category::lists('name', 'id')->all();
         return view('admin.posts.create', compact('categories'));
     }
 
@@ -40,7 +41,7 @@ class AdminPostsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostsCreateRequest $request)
     {
         $post = $request->all();
 
@@ -80,7 +81,9 @@ class AdminPostsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $categories = Category::lists('name','id')->all();
+        return view('admin.posts.edit', compact('post', 'categories'));
     }
 
     /**
@@ -92,7 +95,20 @@ class AdminPostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $input = $request->all();
+        if ($photoFile = $request->file('photo_id')){
+            if ($oldPhoto = $post->photo){
+                unlink(public_path().$oldPhoto->file);
+            }
+            $photoName = time().$photoFile->getClientOriginalName();
+            $photoFile->move('images', $photoName);
+            $photo = Photo::create(['file'=>$photoName]);
+            $input['photo_id'] = $photo->id;
+        }
+        $post->update($input);
+        Session::flash('post_updated', "The post '$post->title' updated successfully.'");
+        return redirect(route('admin.posts.index'));
     }
 
     /**
@@ -103,6 +119,14 @@ class AdminPostsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::findOrFail($id);
+//        return $photo=$post->photo;
+        if ($photo=$post->photo){
+            $file = public_path().$photo->file;
+            unlink($file);
+        }
+        $post->delete();
+        Session::flash('post_deleted', "The post '$post->title' deleted successfully");
+        return redirect(route('admin.posts.index'));
     }
 }

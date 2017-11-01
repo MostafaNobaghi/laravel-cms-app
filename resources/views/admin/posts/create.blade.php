@@ -7,7 +7,7 @@
 
     @include('includes.errors')
 
-    {!! Form::open(['action' => 'AdminPostsController@store','files'=>true, 'class'=>'col-md-3 col-md-offset-4']) !!}
+    {!! Form::open(['action' => 'AdminPostsController@store','files'=>true, 'class'=>'col-md-6 col-md-offset-2']) !!}
     {!! Form::hidden('user_id', Auth::user()->id) !!}
     <div class="form-group">
         {!! Form::label('title', 'Title:') !!}
@@ -15,11 +15,11 @@
     </div>
     <div class="form-group">
         {!! Form::label('body', 'Text:') !!}
-        {!! Form::text('body', '', ['class'=>'form-control', 'placeholder'=>'body']) !!}
+        {!! Form::textarea('body', '', ['class'=>'form-control', 'placeholder'=>'body']) !!}
     </div>
     <div class="form-group">
         {!! Form::label('category_id', 'Category:') !!}
-        {!! Form::select('category_id', $categories, '', ['class'=>'form-control']) !!}
+        {!! Form::select('category_id', [''=>'Choose category']+$categories, '', ['class'=>'form-control']) !!}
     </div>
     {{--<div class="form-group">--}}
         {{--{!! Form::label('is_active', 'Set active:') !!}--}}
@@ -27,7 +27,7 @@
     {{--</div>--}}
     <div class="form-group">
         {!! Form::label('photo_id', 'Image:', ['class'=>'']) !!}
-        {!! Form::file('photo_id', ['class'=>'']) !!}
+        {!! Form::file('photo_id', ['class'=>'form-control']) !!}
     </div>
     <div class="form-group">
         {!! Form::submit('create',['class'=>'btn btn-success']) !!}

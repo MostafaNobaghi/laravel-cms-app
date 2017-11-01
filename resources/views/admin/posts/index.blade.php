@@ -14,7 +14,7 @@
         <div class="alert alert-danger"><p>{{session('post_deleted')}}</p></div>
     @endif
     <h2>Posts</h2>
-    <table class="table">
+    <table class="table table-responsive">
         <thead>
         <tr>
             <th>ID</th>
@@ -22,6 +22,7 @@
             <th>Title</th>
             <th>Description</th>
             <th>Author</th>
+            <th>Category</th>
             <th>Create at</th>
             <th>Update at</th>
         </tr>
@@ -33,19 +34,22 @@
                     <td><img style="height: 50px" src="{{$post->photo_id>0 ? $post->photo['file'] :'/images/post-placeholder.jpg'}}" alt="no image"></td>
                     <td>
                         {{$post->title}}
-                        <div class="btn-default">
 
-
-                            {!! Form::open(['method'=>'DELETE','url' => "admin/users/$post->id" , 'class'=>'', 'id'=>"delete-$post->id" ]) !!}
-                                <a href="{{route('admin.posts.edit',$post->id)}}" class="">edit</a>
-                                {{--{!! Form::submit('delete',['class'=>'btn btn-default text-danger']) !!}--}}
-                                {!! Form::label('delete','Delete', ['class'=>'delete-links text-danger']) !!}
-                                {!! Form::input('submit','delete','Delete',['class'=>'hidden']) !!}
+                    </td>
+                    <td>
+                        {{$post->shortBody()}}
+                        <div class="">
+                            {!! Form::open(['method'=>'DELETE','url' => "admin/posts/$post->id" , 'class'=>'S', 'id'=>"delete-$post->id" ]) !!}
+                            <a href="/post/{{$post->id}}" class="text-success">Show</a>
+                            <a href="{{route('admin.posts.edit',$post->id)}}" class="">edit</a>
+                            {{--{!! Form::submit('delete',['class'=>'btn btn-default text-danger']) !!}--}}
+                            {!! Form::label('delete'.$post->id,'Delete', ['class'=>'btn delete-links text-danger']) !!}
+                            {!! Form::input('submit','delete'.$post->id,'Delete',['class'=>'hidden']) !!}
                             {!! Form::close() !!}
                         </div>
                     </td>
-                    <td>{{$post->body}}</td>
                     <td>{{$post->user['name']}}</td>
+                    <td>{{$post->category ? $post->category['name'] : 'Uncategorized'}}</td>
                     <td>{{$post->created_at}}</td>
                     <td>{{$post->updated_at}}</td>
                 </tr>

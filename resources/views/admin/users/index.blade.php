@@ -40,8 +40,8 @@
                             {!! Form::open(['method'=>'DELETE','url' => "admin/users/$user->id" , 'class'=>'', 'id'=>"delete-$user->id" ]) !!}
                             <a href="{{route('admin.users.edit',$user->id)}}" class="">edit</a>
                             {{--{!! Form::submit('delete',['class'=>'btn btn-default text-danger']) !!}--}}
-                            {!! Form::label('delete','Delete', ['class'=>'delete-links text-danger']) !!}
-                            {!! Form::input('submit','delete','Delete',['class'=>'hidden']) !!}
+                            {!! Form::label('delete'.$user->id,'Delete', ['class'=>'delete-links text-danger']) !!}
+                            {!! Form::input('submit','delete'.$user->id,'Delete',['class'=>'hidden']) !!}
                             {!! Form::close() !!}
                         </div>
                     </td>
