@@ -52,14 +52,11 @@ class AdminPostsController extends Controller
                 $photo = Photo::create(['file'=>$name]);
                 $post['photo_id'] = $photo->id;
             }
-
-            Post::create($post);
-            Session::flash('post_created', "The post '".  $post['title']. "' created successfuly." );
-            return redirect(route('admin.posts.index'));
         }
 
-//        if($request)
-        return $post['photo_id'];
+        Post::create($post);
+        Session::flash('post_created', "The post '".  $post['title']. "' created successfuly." );
+        return redirect(route('admin.posts.index'));
     }
 
     /**
