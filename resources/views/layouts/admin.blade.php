@@ -350,12 +350,14 @@ $signedInUser = \Illuminate\Support\Facades\Auth::user();
 </div>
 <!-- /#wrapper -->
 
-<!-- jQuery -->
-<script src="{{asset('js/libs.js')}}"></script>
 
 
 @yield('footer')
 
+<!-- jQuery -->
+<script src="{{asset('js/libs.js')}}"></script>
+
+@yield('page-script')
 
 
 
