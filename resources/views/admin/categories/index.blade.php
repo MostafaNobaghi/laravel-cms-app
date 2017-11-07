@@ -1,3 +1,4 @@
+
 @extends('layouts.admin')
 @section('content')
 
@@ -10,17 +11,18 @@
                 </div>
                 <div class="modal-body">
 
-                    {!! Form::open(['action' => 'AdminCategoriesController@store', 'class'=>'']) !!}
+                    {!! Form::open(['method'=>'PATCH', 'action' => ['AdminCategoriesController@update', ''], 'class'=>'', 'id'=>'edit-form']) !!}
                     <div class="form-group">
                         {!! Form::label('name', 'Name:') !!}
                         {!! Form::text('name', '', ['class'=>'form-control', 'placeholder'=>'Category title']) !!}
                     </div>
-                    {!! Form::submit('create',['class'=>'btn btn-success col-sm-12']) !!}
+                    {!! Form::submit('Edit',['class'=>'btn btn-info col-sm-6']) !!}
+                    {!! Form::close() !!}
+                    {!! Form::open(['method'=>'DELETE', 'action' => ['AdminCategoriesController@destroy', ''], 'class'=>'', 'id'=>'delete-form']) !!}
+                    {!! Form::submit('Delete',['class'=>'btn btn-danger col-sm-6']) !!}
                     {!! Form::close() !!}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -28,6 +30,17 @@
 
 
     @include('includes.errors')
+    @if(\Illuminate\Support\Facades\Session::has('category_update'))
+        <div class="alert alert-info"><p>{{session('category_update')}}</p></div>
+    @endif
+
+    @if(\Illuminate\Support\Facades\Session::has('category_create'))
+        <div class="alert alert-success"><p>{{session('category_create')}}</p></div>
+    @endif
+
+    @if(\Illuminate\Support\Facades\Session::has('category_delete'))
+        <div class="alert alert-info"><p>{{session('category_delete')}}</p></div>
+    @endif
     <div class="col-md-5 col-sm-12">
         <h3>Create category</h3>
         {!! Form::open(['action' => 'AdminCategoriesController@store', 'class'=>'']) !!}
@@ -55,11 +68,11 @@
                 @foreach($categories as $category)
                     {{--{{dd($category)}}--}}
                     <tr>
-                        <th>{{$category['id']}}</th>
-                        <th><a href=""  data-toggle="modal" data-target="#myModal">{{$category['name']}}</a></th>
-                        <th>{{$category['postsCount']}}</th>
-                        <th>{{$category['created_at']}}</th>
-                        <th>{{$category['updated_at']}}</th>
+                        <td>{{$category['id']}}</td>
+                        <td><a class="category-link" href=""  data-toggle="modal" data-target="#myModal" cat-id="{{$category['id']}}">{{$category['name']}}</a></td>
+                        <td>{{$category['postsCount']}}</td>
+                        <td>{{$category['created_at']}}</td>
+                        <td>{{$category['updated_at']}}</td>
                     </tr>
                 @endforeach
             @endif
@@ -71,6 +84,15 @@
 
 @section('page-script')
     <script>
+        var update_url = $('#edit-form').attr('action');
+        $('.category-link').click(function () {
+            var cat_id = $(this).attr('cat-id');
+            var text_value = $(this).html();
 
+            $('#edit-form').attr('action', update_url+'/'+cat_id);
+            $('#delete-form').attr('action', update_url+'/'+cat_id);
+
+            $('#edit-form input:text').val(text_value);
+        });
     </script>
 @endsection
