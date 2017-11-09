@@ -13,6 +13,14 @@ class Photo extends Model
     public function getFileAttribute($file){
         return $this->directory.$file;
     }
+
+    public function post(){
+        return $this->hasOne('App\Post');
+    }
+
+    public function user(){
+        return $this->hasOne('App\User');
+    }
 }
 
 

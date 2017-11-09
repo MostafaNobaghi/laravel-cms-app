@@ -39,3 +39,7 @@
 label.delete-links.text-danger:hover {
     text-decoration: underline;
 }
+
+td>img {
+    height: 50px;
+}

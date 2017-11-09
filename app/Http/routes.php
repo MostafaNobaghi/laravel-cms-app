@@ -29,7 +29,9 @@ Route::group(['middleware'=>'admin'], function (){
     Route::resource('/admin/posts', 'AdminPostsController');
     Route::get('/post/{id}', 'AdminPostsController@show');
     Route::resource('/admin/categories', 'AdminCategoriesController');
-
+    Route::resource('/admin/media', 'AdminMediaController');
+//    Route::get('admin/media', ['as'=>'admin.media.index', 'uses'=>'AdminMediaController@index']);
+//    Route::get('/admin/media/upload', ['as'=>'admin.media.upload', 'uses'=>'AdminMediaController@upload']);
 });
 
 Route::get('/home', 'HomeController@index');
