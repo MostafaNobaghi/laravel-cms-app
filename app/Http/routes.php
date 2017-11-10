@@ -32,6 +32,8 @@ Route::group(['middleware'=>'admin'], function (){
     Route::resource('/admin/media', 'AdminMediaController');
 //    Route::get('admin/media', ['as'=>'admin.media.index', 'uses'=>'AdminMediaController@index']);
 //    Route::get('/admin/media/upload', ['as'=>'admin.media.upload', 'uses'=>'AdminMediaController@upload']);
+    Route::resource('admin/comments', 'CommentsController');
+    Route::resource('admin/comment/replies', 'CommentRepliesController');
 });
 
 Route::get('/home', 'HomeController@index');

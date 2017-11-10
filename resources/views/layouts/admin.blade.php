@@ -154,6 +154,21 @@ $signedInUser = \Illuminate\Support\Facades\Auth::user();
                         <!-- /.nav-second-level -->
                     </li>
 
+                    <li>
+                        <a href="{{route('admin.comments.index')}}"><i class="fa fa-wrench fa-fw"></i> Comments<span class=""></span></a>
+                        {{--<ul class="nav nav-second-level">--}}
+                            {{--<li>--}}
+                                {{--<a href="{{route('admin.posts.index')}}">All Comments</a>--}}
+                            {{--</li>--}}
+
+                            {{--<li>--}}
+                                {{--<a href="{{route('admin.posts.create')}}">Create Post</a>--}}
+                            {{--</li>--}}
+
+                        {{--</ul>--}}
+                        {{--<!-- /.nav-second-level -->--}}
+                    </li>
+
 
                     <li>
                         <a href="#"><i class="fa fa-wrench fa-fw"></i>Categories<span class="fa arrow"></span></a>
