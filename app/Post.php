@@ -29,6 +29,6 @@ class Post extends Model
 
 
     public function shortBody(){
-        return substr($this->body,0,50).'...';
+        return substr($this->body,0,30).'...';
     }
 }

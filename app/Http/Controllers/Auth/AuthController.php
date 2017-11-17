@@ -28,7 +28,17 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/admin';
+//    protected $redirectTo = '/admin';
+public $rdp;
+
+    public function redirectPath(){
+//        return back();
+        if (property_exists($this, 'redirectPath')) {
+            return $this->redirectPath;
+        }
+
+        return property_exists($this, 'redirectTo') ? $this->redirectTo : back();
+    }
 
     /**
      * Create a new authentication controller instance.
@@ -37,6 +47,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
+//        $this->rdp = ''
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
     }
 
@@ -69,4 +80,9 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
         ]);
     }
+
+
+
+
+
 }

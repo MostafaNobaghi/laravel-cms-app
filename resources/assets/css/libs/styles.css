@@ -43,3 +43,16 @@ label.delete-links.text-danger:hover {
 td>img {
     height: 50px;
 }
+
+#admin-page {
+    padding-top: 0;
+}
+
+.img-post-thumbnail {
+    height: 150px !important;
+}
+
+.posts-container {
+    border: 1px #e6e6e6 solid;
+
+}

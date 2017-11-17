@@ -24,6 +24,17 @@ class AdminPostsController extends Controller
         return view('admin.posts.index', compact('posts'));
     }
 
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function blog(){
+        $posts = Post::all();
+        return view('blog.index', compact('posts'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -67,7 +78,8 @@ class AdminPostsController extends Controller
      */
     public function show($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        return view('blog.post', compact('post'));
     }
 
     /**
