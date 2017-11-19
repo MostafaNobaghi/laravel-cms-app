@@ -104,6 +104,7 @@
 
 
             <!-- Pager -->
+            <div class="clearfix"></div>
             <ul class="pager">
                 <li class="previous">
                     <a href="#">&larr; Older</a>
@@ -185,12 +186,10 @@
 
 
 <!-- /.libs scripts -->
-<script src="{{asset('js/libs.js')}}"></script>
 <!-- jQuery -->
-{{--<script src="js/jquery.js"></script>--}}
+<script src="{{asset('js/libs.js')}}"></script>
 
-<!-- Bootstrap Core JavaScript -->
-{{--<script src="js/bootstrap.min.js"></script>--}}
+@yield('page-scripts')
 
 </body>
 

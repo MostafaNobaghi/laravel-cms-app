@@ -6,6 +6,7 @@ use App\Comment;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Auth;
 
 class CommentsController extends Controller
 {
@@ -37,7 +38,19 @@ class CommentsController extends Controller
      */
     public function store(Request $request)
     {
-        Comment::create($request->all());
+        $user = Auth::user();
+        $input = $request->all();
+        $data = [
+            'post_id' => $input['post_id'],
+            'author'  => $user->name,
+            'email'   => $user->email,
+            'body'    => $input['body'],
+        ];
+
+
+        if (isset($user->photo->file))$data['photo'] = $user->photo->file;
+        if (!$user->isRegular())$data['is_active'] = 1;
+        Comment::create($data);
         return back();
     }
 

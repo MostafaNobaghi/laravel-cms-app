@@ -20,6 +20,9 @@ Route::get('/', function () {
 
 Route::auth();
 
+// Login via Ajax
+Route::post('/ajaxlogin', 'Auth\AuthController@ajaxLogin');
+
 Route::group(['middleware'=>'admin'], function (){
     Route::get('/admin', function (){
         return view('admin.index');

@@ -36,28 +36,34 @@
 
     <div class="well">
         <h4>Leave a Comment:</h4>
-        @if(Auth::user())
-        {!! Form::open(['action' => 'CommentsController@store', 'class'=>'']) !!}
+        <?php
+        if ($user = Auth::user()){
+            $commentFormClass = '';
+            $loginFormClass = 'hidden';
+        }else{
+            $commentFormClass = 'hidden';
+            $loginFormClass = '';
+        }
+        ?>
+
+        {!! Form::open(['action' => 'CommentsController@store', 'class'=>' '.$commentFormClass, 'id'=>'comment-form']) !!}
             <div class="form-group">
                 {!! Form::textarea('body', '', ['class'=>'form-control', 'placeholder'=>'Leave your Comment here...:', 'rows'=>4, 'required'=>'required']) !!}
             </div>
-        {!! Form::hidden('user_id', Auth::user()->id) !!}
         {!! Form::hidden('post_id', $post->id) !!}
             {!! Form::submit('submit',['class'=>'btn btn-primary']) !!}
 
             {!! Form::close() !!}
-        @else
             <div class="alert alert-default">
-                <h5 class="">
-                    Please sign in :
+                <h5 class="">Please sign in : </h5>
 
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
+                    <form id="login-form" class="form-horizontal {{$loginFormClass}}" role="form" method="POST" action="{{ url('/login') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="E-Mail Address">
+                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="E-Mail Address" >
 
                                 @if ($errors->has('email'))
                                     <span class="help-block">
@@ -67,7 +73,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" placeholder="Password">
+                                <input id="password" type="password" class="form-control" name="password" placeholder="Password" >
 
                                 @if ($errors->has('password'))
                                     <span class="help-block">
@@ -76,9 +82,6 @@
                                 @endif
                             </div>
                         </div>
-
-
-
 
 
                         <div class="form-group">
@@ -102,9 +105,8 @@
                         <div class="form-group">
                         </div>
                     </form>
-                </h5>
+
             </div>
-        @endif
     </div>
 
     <hr>
@@ -149,4 +151,42 @@
             <!-- End Nested Comment -->
         </div>
     </div>
+@endsection
+
+@section('page-scripts')
+    <script>
+        $(document).ready(function(){
+            $('#login-form').submit(function (event) {
+                event.preventDefault();
+                var form = $(this);
+                var data = form.serializeArray();
+
+                console.log(data);
+
+                $.ajax({
+                    method: 'POST',
+                    url: '/ajaxlogin',
+                    data: data,
+                    beforeSend: function(){
+                        form.slideUp(300);
+                    }
+                }).done(function (response) {
+                    if(response.status == 'success'){
+                        location.reload();
+                        $('#comment-form').removeClass('hidden');
+                        $('#comment-form').show(300);
+                    }else{
+                        form.fadeIn(300);
+                        alert(response.message);
+                    }
+                    console.log(response);
+                }).error(function (response) {
+//                    window.location.replace("http://laravel.cms/blog/post/3");
+//                    location.reload();
+//                    console.log(response);
+                    alert(response.message);
+                });
+            })
+        });
+    </script>
 @endsection
