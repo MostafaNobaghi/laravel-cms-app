@@ -6593,6 +6593,11 @@ body {
     padding-top: 70px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
 }
 
+.comment-author-img {
+    width: 64px;
+    height: 64px;
+}
+
 footer {
     margin: 50px 0;
 }
@@ -8743,5 +8748,6 @@ td>img {
 
 .posts-container {
     border: 1px #e6e6e6 solid;
+
 }
 /*# sourceMappingURL=libs.css.map */

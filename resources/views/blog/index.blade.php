@@ -11,7 +11,7 @@
                 <div class="row posts-container">
                     <div class="">
                         <div class="">
-                            <a href="#" class="thumbnail">
+                            <a href="{{route('blog.post', ['id'=>$post->id])}}" class="thumbnail">
                                 <img class="img-responsive img-post-thumbnail " src="{{$post->photo_id >0?$post->photo['file']:"http://placehold.it/900x300"}}" alt="">
                             </a>
                         </div>

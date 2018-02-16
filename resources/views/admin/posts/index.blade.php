@@ -23,6 +23,7 @@
             <th>Description</th>
             <th>Author</th>
             <th>Category</th>
+            <th>Comments</th>
             <th>Create at</th>
             <th>Update at</th>
         </tr>
@@ -50,6 +51,7 @@
                     </td>
                     <td>{{$post->user['name']}}</td>
                     <td>{{$post->category ? $post->category['name'] : 'Uncategorized'}}</td>
+                    <td> <a href="{{route('admin.comments.index', ['id'=>$post->id])}}" class="text-success">Comments</a></td>
                     <td>{{$post->created_at}}</td>
                     <td>{{$post->updated_at}}</td>
                 </tr>
